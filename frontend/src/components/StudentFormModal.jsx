@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { LuX } from "react-icons/lu";
-
+import { Eye, EyeOff } from "lucide-react";
 import apiRequest from "../services/api";
 
 import "../styles/studentFormModal.css";
@@ -12,6 +12,7 @@ function StudentFormModal({
     onSuccess,
     onAuthError
 }) {
+     const [showPassword, setShowPassword] = useState(false);
 
     const initialFormData = {
         registrationNo: "",
@@ -245,24 +246,40 @@ function StudentFormModal({
 
 
                     {!editingStudent && (
-                        <div className="form-group">
+    <div className="form-group">
 
-                            <label htmlFor="password">
-                                Password
-                            </label>
+        <label htmlFor="password">
+            Password
+        </label>
 
-                            <input
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                                disabled={formLoading}
-                                required
-                            />
-                        </div>
-                    )}
+        <div className="password-input-wrapper">
 
+            <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                disabled={formLoading}
+                required
+            />
 
+            <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                disabled={formLoading}
+            >
+                {showPassword
+                    ? <EyeOff size={20} />
+                    : <Eye size={20} />
+                }
+            </button>
+
+        </div>
+
+    </div>
+)}
                     <div className="form-actions">
 
                         <button
