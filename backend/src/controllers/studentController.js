@@ -176,7 +176,23 @@ const getStudents = async (req, res) => {
 
     try {
 
-        const students = await getAllStudents();
+        const [students] = await pool.execute(
+            `SELECT
+                s.student_id,
+                s.user_id,
+                s.registration_no,
+                s.first_name,
+                s.last_name,
+                s.email,
+                s.phone_number,
+                s.created_at,
+                s.updated_at,
+                u.last_login
+            FROM students AS s
+            LEFT JOIN users AS u
+                ON s.user_id = u.user_id
+            ORDER BY s.student_id DESC`
+        );
 
         return res.status(200).json({
             success: true,
